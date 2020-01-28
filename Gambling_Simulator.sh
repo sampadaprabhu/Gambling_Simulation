@@ -16,6 +16,25 @@ WinOrLoose()
 		Loss=$(( $Loss + 50 ))
 	fi	
 }
+GamblerSimulation()
+{
+	for (( i=1; i<=20; i++ ))
+	do
+		Cash=$STAKE_OF_EVERY_DAY
+		percentage
+		while (( $Cash > Minimum_percentage && $Cash < $Maximum_percentage ))
+		do
+			if ((RANDOM%2 == 0))
+			then
+				Cash=$(( $Cash + $BET_OF_EVERY_GAME ))
+			else
+				Cash=$(( $Cash - $BET_OF_EVERY_GAME ))
+			fi
+		done
+		WinOrLoose
+		GamblerDictionary[$i]=$(( $Cash - $STAKE_OF_EVERY_DAY ))
+	done
+}
 LuckyAndUnluckyDay()
 {
 	Lucky_Amount=${GamblerDictionary[1]}
@@ -42,22 +61,8 @@ STAKE_OF_EVERY_DAY=100
 BET_OF_EVERY_GAME=1
 Win=0
 Loss=0
-for (( i=1; i<=20; i++ ))
-do
-	Cash=$STAKE_OF_EVERY_DAY
-	percentage
-	while (( $Cash > Minimum_percentage && $Cash < $Maximum_percentage ))
-	do
-		if ((RANDOM%2 == 0))
-		then
-			Cash=$(( $Cash + $BET_OF_EVERY_GAME ))
-		else
-			Cash=$(( $Cash - $BET_OF_EVERY_GAME ))
-		fi
-	done
-	WinOrLoose
-	GamblerDictionary[$i]=$(( $Cash - $STAKE_OF_EVERY_DAY ))
-done
+
+GamblerSimulation
 for (( i=2;i<=20;i++ ))
 do
 	GamblerDictionary[$i]=$(( ${GamblerDictionary[$i]} + ${GamblerDictionary[$((i-1))]} ))
@@ -66,3 +71,5 @@ done
 echo "Days "${!GamblerDictionary[@]}
 echo "cash " ${GamblerDictionary[@]}
 LuckyAndUnluckyDay
+
+
