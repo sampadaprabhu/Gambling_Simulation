@@ -16,6 +16,27 @@ WinOrLoose()
 		Loss=$(( $Loss + 50 ))
 	fi	
 }
+LuckyAndUnluckyDay()
+{
+	Lucky_Amount=${GamblerDictionary[1]}
+	Lucky_Day=1
+	Unlucky_Amount=${GamblerDictionary[1]}
+	Unlucky_Day=1
+	for (( i=1; i<=20; i++ ))
+	do
+		if (( ${GamblerDictionary[$i]} > $Lucky_Amount ))
+		then
+			Lucky_Amount=${GamblerDictionary[$i]}
+			Lucky_Day=$i
+		elif (( ${GamblerDictionary[$i]} < $Unlucky_Amount ))
+		then
+			Unlucky_Amount=${GamblerDictionary[$i]}
+			Unlucky_Day=$i
+		fi
+	done
+	echo "Luckiest Day Of Gambler is $Lucky_Day And the Amount is $Lucky_Amount"
+	echo "Unluckiest Day Of Gambler is $Unlucky_Day And the Amount is $Unlucky_Amount"
+}
 #Declairing Constant Values
 STAKE_OF_EVERY_DAY=100
 BET_OF_EVERY_GAME=1
@@ -44,3 +65,4 @@ done
 
 echo "Days "${!GamblerDictionary[@]}
 echo "cash " ${GamblerDictionary[@]}
+LuckyAndUnluckyDay
