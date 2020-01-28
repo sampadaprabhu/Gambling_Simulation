@@ -1,5 +1,6 @@
 #!/bin/bash
 echo "Welcome To Gambler Simulator"
+declare -A GamblerDictionary
 percentage()
 {
 	percentage=$(( $STAKE_OF_EVERY_DAY * 50 / 100 ))
@@ -34,6 +35,12 @@ do
 		fi
 	done
 	WinOrLoose
+	GamblerDictionary[$i]=$(( $Cash - $STAKE_OF_EVERY_DAY ))
 done
-echo "Total Winning Cash: $Win"
-echo "Total Loosing Cash: $Loss"
+for (( i=2;i<=20;i++ ))
+do
+	GamblerDictionary[$i]=$(( ${GamblerDictionary[$i]} + ${GamblerDictionary[$((i-1))]} ))
+done
+
+echo "Days "${!GamblerDictionary[@]}
+echo "cash " ${GamblerDictionary[@]}
